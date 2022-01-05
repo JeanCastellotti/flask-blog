@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Se connecter</h1>
+    <h1>Se reconnecter</h1>
     <form method="POST" novalidate>
         {{ form.csrf_token }}
         <div>
             {{ form.email.label }}
             {{ form.email }}
             {% if form.email.errors %}
-                {% for error in form.email.errors %}
+                {% for errors in form.email.errors %}
                     <span>{{ error }}</span>
                 {% endfor %}
             {% endif %}
@@ -23,13 +23,7 @@
             {% endif %}
         </div>
         <div>
-            {{ form.remember.label }}
-            {{ form.remember }}
-        </div>
-        <div>
             {{ form.submit }}
         </div>
     </form>
-    <a href="#">J'ai oublié mon mot de passe</a>
-    {# <a href="{{ url_for('register') }}">Je n'ai pas de compte</a> #}
 {% endblock %}
