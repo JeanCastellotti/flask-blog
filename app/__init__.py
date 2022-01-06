@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
+from flask_migrate import Migrate
 from app.config import Config
 
 
@@ -14,6 +15,7 @@ login_manager.login_view = "auth.login"
 # login_manager.login_message = "Vous devez vous connecter"
 # login_manager.login_message_category = "error"
 login_manager.refresh_view = "reauthenticate"
+migrate = Migrate()
 
 def create_app(config=Config):
     app = Flask(__name__)
@@ -23,6 +25,7 @@ def create_app(config=Config):
     bcrypt.init_app(app)
     mail.init_app(app)
     login_manager.init_app(app)
+    migrate.init_app(app, db)
 
     from .auth.routes import auth
     from .users.routes import users
