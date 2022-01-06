@@ -1,0 +1,20 @@
+[x-cloak] {
+    display: none!important;
+}
+
+.modal {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background: rgba(0,0,0,.8);
+    display: flex;
+}
+
+.modal__inner {
+    margin: auto;
+    background: #FFF;
+    padding: 10px;
+    border-radius: 5px;
+}

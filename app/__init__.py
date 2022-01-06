@@ -2,23 +2,38 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+from flask_mail import Mail
+from app.config import Config
 
-app = Flask(__name__)
-app.config.from_pyfile("config.py")
 
-db = SQLAlchemy(app)
-
-bcrypt = Bcrypt(app)
-
-login_manager = LoginManager(app)
-# login_manager.session_protection = "strong"
-login_manager.login_view = "login"
+db = SQLAlchemy()
+bcrypt = Bcrypt()
+mail = Mail()
+login_manager = LoginManager()
+login_manager.login_view = "auth.login"
 # login_manager.login_message = "Vous devez vous connecter"
 # login_manager.login_message_category = "error"
 login_manager.refresh_view = "reauthenticate"
 
-from app import routes
+def create_app(config=Config):
+    app = Flask(__name__)
+    app.config.from_object(config)
 
+    db.init_app(app)
+    bcrypt.init_app(app)
+    mail.init_app(app)
+    login_manager.init_app(app)
 
-# db.drop_all()
-# db.create_all()
+    from .auth.routes import auth
+    from .users.routes import users
+    from .posts.routes import posts
+    from .main.routes import main
+    from .errors.handlers import errors
+
+    app.register_blueprint(auth)
+    app.register_blueprint(users)
+    app.register_blueprint(posts)
+    app.register_blueprint(main)
+    app.register_blueprint(errors)
+
+    return app

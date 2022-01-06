@@ -30,6 +30,6 @@
             {{ form.submit }}
         </div>
     </form>
-    <a href="#">J'ai oublié mon mot de passe</a>
-    {# <a href="{{ url_for('register') }}">Je n'ai pas de compte</a> #}
+    <a href="{{ url_for('auth.request_password')}}">J'ai oublié mon mot de passe</a>
+    <a href="{{ url_for('auth.register') }}">Je n'ai pas de compte</a>
 {% endblock %}

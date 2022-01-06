@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <article x-data="{ showModal: false }" @keyup.escape="showModal = false">
+        <div x-show="showModal" x-cloak class="modal">
+            <div class="modal__inner" @click.away="showModal = false">
+                <p class="modal__message">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Porro, nam.</p>
+                <div class="modal__buttons">
+                    <button @click="showModal = false">Cancel</button>
+                    <form action="{{ url_for('posts.delete_post', id=post.id) }}" method="post">
+                        <input type="submit" value="Delete">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <h1>{{ post.title }}</h1>
+        <p>{{ post.content }}</p>
+        <small>{{ post.created_at }} - {{ post.author.username }}</small>
+        {% if current_user == post.author %}
+            <a href="{{ url_for('posts.update_post', id=post.id) }}">Update</a>
+            <button id="delete-post" @click="showModal = true">Delete</button>
+        {% endif %}
+    </article>
+{% endblock %}
